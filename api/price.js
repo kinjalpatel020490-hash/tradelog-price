@@ -1,9 +1,16 @@
 const https = require('https')
+const SECRET_KEY = process.env.CANNOTGUESS
 
 module.exports = async (req, res) => {
   // Allow requests from any origin (your HTML file)
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
+
+  // Reject if wrong or missing key
+  const key = req.query.key || req.headers['x-api-key']
+  if (!key || key !== SECRET_KEY) {
+    return res.status(401).json({ error: 'Cannot be found' })
+  }
 
   const { symbol, exchange } = req.query
   if (!symbol) {
