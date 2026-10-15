@@ -4,18 +4,8 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
 
-  const SECRET_KEY = process.env.CANNOTGUESS
+  const SECRET_KEY = "2d636a08b14a0481b9f404b48418e15a6fd543589dcdfbcc6dd8b7fd77efa5e3";
   const key = req.query.key || req.headers['x-api-key']
-
-  // Temporary debug — remove after fixing
-  if (req.query.debug === '1') {
-    return res.status(200).json({
-      receivedKey: key,
-      secretExists: !!SECRET_KEY,
-      secretLength: SECRET_KEY ? SECRET_KEY.length : 0,
-      match: key === SECRET_KEY
-    })
-  }
 
   if (!key || key !== SECRET_KEY) {
     return res.status(401).json({ error: 'Cannot be found' })
