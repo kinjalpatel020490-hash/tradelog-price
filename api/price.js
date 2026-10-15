@@ -1,6 +1,16 @@
 const https = require('https')
 const SECRET_KEY = process.env.CANNOTGUESS
 
+  // Temporary debug — remove after fixing
+  if (req.query.debug === '1') {
+    return res.status(200).json({
+      receivedKey: key,
+      secretExists: !!SECRET_KEY,
+      secretLength: SECRET_KEY ? SECRET_KEY.length : 0,
+      match: key === SECRET_KEY
+    })
+  }
+
 module.exports = async (req, res) => {
   // Allow requests from any origin (your HTML file)
   res.setHeader('Access-Control-Allow-Origin', '*')
